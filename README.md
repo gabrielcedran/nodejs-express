@@ -65,7 +65,7 @@ It's an ORM which is DB agnostic and supports a selection of Relational and non-
 
 Installation:
 
-run `npm i prisma -D` and then `npx prisma init`.
+run `npm i prisma -D` and then `npx prisma init`. _ps this is the prisma CLI not the ORM / SDK. ORM installed below in the migrations step_
 
 Basically 2 files will be created:
 
@@ -83,3 +83,15 @@ Models is what hibernate calls entities. It's basically the object mapping to th
 When defining the relationship between objects, it's possible to define one side of the relationship and run the command `npx prisma format` to have it creating the other side (e.g in a one to many relationship)
 
 _by default all attributes are mandatory_
+
+### Migrations
+
+The SDK / ORM part of prisma is actually a separate module. To install it, run `npm i @prisma/client`.
+
+To apply the initially defined schema (and every subsequent change) to the DB and generate the SDK, run `npx prisma migrate dev --name init` - ps the db url environment variable has to be properly set to the up and running db.
+
+The `name` flag is a suffix to help identify what this migration is about.
+
+_to reset a db: `npx prisma migrate reset`_
+
+_prisma generates the client that will be used in the code based on the schema_
