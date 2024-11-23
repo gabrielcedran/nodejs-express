@@ -169,3 +169,7 @@ dotenv.config();
 
 process.env.SOMETHING;
 ```
+
+_ps1: bcrypt will be used to hash the users's passwords_
+
+_ps2: jsonwebtoken will be used to issue jwt tokens_
