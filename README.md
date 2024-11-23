@@ -136,6 +136,20 @@ Ps: It's not necessary to pass a mount path for the `use` function: `app.use(mor
 1. morgan: it's a middleware that logs requests - `npm i morgan`
 2. express.json(): enables receiving json from the clients
 3. express.urlencoded({extended: true}): enables use of query and params as maps.
+4. cors: `npm i cors`
+
+### Middlewares with custom params
+
+It's just a matter of creating a function that returns a function:
+
+```javascript
+const customLogger = (message) => (req, res, next) => {
+  console.log(`Custom message!! ${message}`);
+  next();
+};
+
+app.use(customLogger("Parameterised message!!"));
+```
 
 ## Thunder Client
 

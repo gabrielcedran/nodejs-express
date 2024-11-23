@@ -1,9 +1,12 @@
 {
+    "ts-node": {
+        "files": true // enables types redeclaration for ts-node
+    },
     "compilerOptions": {
         "sourceMap": true,
         "outDir": "dist",
         "strict": true,
         "lib": ["ESNext"],
-        "esModuleInterop": true
+        "esModuleInterop": true,
     }
 }
