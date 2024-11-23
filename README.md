@@ -30,3 +30,48 @@ To enable ES Modules, just add the line `"type": "module"` to the root of `packa
 Installation `npm i express`.
 
 Express can return virtually any type in a response - html, json, image, video, etc (basically any file or any data).
+
+## Typescript and nodejs
+
+To install typescript for node:
+
+`npm i typescript ts-node @types/node -D`
+
+- `typescript` is the actual transpiler that will convert typescript into javascript
+- `ts-node` is a ts runner for node - to avoid having to transpile before execution.
+- `@types/node` is just the types for the node runtime
+
+Add the `tsconfig.json` file with the content:
+
+```
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "outDir": "dist",
+        "strict": true,
+        "lib": ["ESNext"],
+        "esModuleInterop": true
+    }
+}
+```
+
+**Manual transpilation:** to manually transpile a ts file into js, just run `npx tsc {file}.ts`. Then to run, simple execute `node {file}.js`.
+
+**Run ts file directly:** simply run `npx ts-node {file}.ts`
+
+## Prisma
+
+It's an ORM which is DB agnostic and supports a selection of Relational and non-relational dbs. It also supports schemas definition, migration, seeding, etc.
+
+Installation:
+
+run `npm i prisma -D` and then `npx prisma init`.
+
+Basically 2 files will be created:
+
+1. `schema.prisma` with the default config (adjust as necessary). This is where the db definition will go
+2. add an entry to `.env` to hold the db url (adjust accordingly as well)
+
+_to spin up a postgres instance: `docker run -itd --name node_course_db --rm --network={if_container_communication_necessary} -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=node_course  postgres:17.2`_
+
+_pro tip: install prisma extension on vscode_
