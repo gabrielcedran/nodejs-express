@@ -112,6 +112,31 @@ The `use` function allows you to apply global configuration to a given path (or 
 
 _ps matching endpoints will always have the first that registered to execute_
 
+## Middleware
+
+In a nutshell, it's a list of functions that have the ability to run before (or after) the handlers - it sits between the router and the handler (example of usages: log the requests, error handling, authentication, augment the request and response, etc). _like aspects in java_
+
+```javascript
+const myMiddleware = (req, res, next) => {
+  // do something here.... it can even break the chain and respond to the client or connect to the db, etc
+  next();
+};
+
+// attach it:
+
+app.get('/api/sth', myMiddleware, anotherMiddleware, ..., handler)
+// or
+app.get('/api/sth', [myMiddleware, anotherMiddleware, ...], handler)
+```
+
+Ps: It's not necessary to pass a mount path for the `use` function: `app.use(morgan('dev'))`. <- this applies to everything that comes to the app.
+
+### Useful third party middlewares
+
+1. morgan: it's a middleware that logs requests - `npm i morgan`
+2. express.json(): enables receiving json from the clients
+3. express.urlencoded({extended: true}): enables use of query and params as maps.
+
 ## Thunder Client
 
 It's a http client embedded in vscode.
