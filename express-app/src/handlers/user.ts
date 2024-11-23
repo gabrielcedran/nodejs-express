@@ -1,4 +1,4 @@
-import { createJWT, hashPassword } from '../modules/auth'
+import { comparePassword, createJWT, hashPassword } from '../modules/auth'
 import prisma from '../modules/db'
 import express from 'express'
 
@@ -12,4 +12,21 @@ export const createUser = async (req: express.Request, res: express.Response) =>
 
     const token = createJWT(user)
     res.json({ token })
+}
+
+export const signIn = async (req: express.Request, res: express.Response) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            username: req.body.username
+        }
+    })
+
+    if (!user || !await comparePassword(req.body.password, user.password)) {
+        res.status(401)
+        res.json({message: 'unauthorized'})
+        return
+    }
+
+    const token = createJWT(user)
+    res.json({ token })  
 }

@@ -76,6 +76,8 @@ _to spin up a postgres instance: `docker run -itd --name node_course_db --rm --n
 
 _pro tip: install prisma extension on vscode_
 
+_npx prisma studio - visual db client_
+
 ### Models
 
 Models is what hibernate calls entities. It's basically the object mapping to the database.
