@@ -69,9 +69,17 @@ run `npm i prisma -D` and then `npx prisma init`.
 
 Basically 2 files will be created:
 
-1. `schema.prisma` with the default config (adjust as necessary). This is where the db definition will go
+1. `schema.prisma` with the default config (adjust as necessary). This is where the db definition will go (model/entities, etc)
 2. add an entry to `.env` to hold the db url (adjust accordingly as well)
 
 _to spin up a postgres instance: `docker run -itd --name node_course_db --rm --network={if_container_communication_necessary} -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=node_course  postgres:17.2`_
 
 _pro tip: install prisma extension on vscode_
+
+### Models
+
+Models is what hibernate calls entities. It's basically the object mapping to the database.
+
+When defining the relationship between objects, it's possible to define one side of the relationship and run the command `npx prisma format` to have it creating the other side (e.g in a one to many relationship)
+
+_by default all attributes are mandatory_
