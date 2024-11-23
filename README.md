@@ -154,3 +154,18 @@ app.use(customLogger("Parameterised message!!"));
 ## Thunder Client
 
 It's a http client embedded in vscode.
+
+## JWT
+
+There are libs to ease working with JWTs (issue and read). `npm i jsonwebtoken bcrypt dotenv`
+
+_ps: by default, nothing in the environment variable file (.env) gets automatically loaded into server - it has to be loaded manually - that is what dotenv is for_
+
+```javascript
+import * as dotenv from "dotenv";
+dotenv.config();
+
+// ...
+
+process.env.SOMETHING;
+```
