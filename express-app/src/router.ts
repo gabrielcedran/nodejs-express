@@ -5,29 +5,31 @@ const router = Router()
 /**
  * Product endpoints
  */
-router.get("/products", () => {})
-router.get("/products/:id", (id) => {})
-router.post("/products", (id) => {})
-router.put("/products/:id", () => {})
-router.delete("/products/:id", () => {})
+router.get("/products", (req, res) => {
+    res.json({message: "Test"})
+})
+router.get("/products/:id", (idreq, res) => {})
+router.post("/products", (req, res) => {})
+router.put("/products/:id", (req, res) => {})
+router.delete("/products/:id", (req, res) => {})
 
 /**
  * Update endpoints
  */
-router.get("/updates", () => {})
-router.get("/updates/:id", (id) => {})
-router.post("/updates", (id) => {})
-router.put("/updates/:id", () => {})
-router.delete("/updates/:id", () => {})
+router.get("/updates", (req, res) => {})
+router.get("/updates/:id", (req, res) => {})
+router.post("/updates", (req, res) => {})
+router.put("/updates/:id", (req, res) => {})
+router.delete("/updates/:id", (req, res) => {})
 
 
 /**
  * Update point endpoints
  */
-router.get("/update-points", () => {})
-router.get("/update-points/:id", (id) => {})
-router.post("/update-points", (id) => {})
-router.put("/update-points/:id", () => {})
-router.delete("/update-points/:id", () => {})
+router.get("/update-points", (req, res) => {})
+router.get("/update-points/:id", (req, res) => {})
+router.post("/update-points", (req, res) => {})
+router.put("/update-points/:id", (req, res) => {})
+router.delete("/update-points/:id", (req, res) => {})
  
 export default router

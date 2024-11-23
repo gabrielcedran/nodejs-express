@@ -111,3 +111,7 @@ When creating routers, you have to attach them to the actual app.
 The `use` function allows you to apply global configuration to a given path (or even whole app).
 
 _ps matching endpoints will always have the first that registered to execute_
+
+## Thunder Client
+
+It's a http client embedded in vscode.
