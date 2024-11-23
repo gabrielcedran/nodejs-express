@@ -95,3 +95,19 @@ The `name` flag is a suffix to help identify what this migration is about.
 _to reset a db: `npx prisma migrate reset`_
 
 _prisma generates the client that will be used in the code based on the schema_
+
+## Routes and Handlers
+
+When using express it's possible to define the app or routers. The main difference is that the app is the whole application while routers is a way of subdividing the app into smaller chunks which have their own configs (e.g public vs private endpoints).
+
+When creating routers, you have to attach them to the actual app.
+
+```javascript
+...
+    app.use('/api', router)
+..
+```
+
+The `use` function allows you to apply global configuration to a given path (or even whole app).
+
+_ps matching endpoints will always have the first that registered to execute_
