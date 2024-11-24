@@ -159,7 +159,7 @@ API shoud never trust clients and users. While it's possible to manually validat
 
 With `express-validator`, you write validators so that when the request hits the controller / handler, it can be assumed that the data is in the expected format.
 
-`express-validator` works as a middleware, were it validates the input based on the configs set up, but it doesn't make any decision about what to do, but instead leave it for the developer to decide:
+`express-validator` works as a middleware (or a schema when it gets more complicated), were it validates the input based on the configs set up, but it doesn't make any decision about what to do, but instead leave it for the developer to decide:
 
 ```javascript
 router.put("/...", body("name").isString(), (req, res) => {
