@@ -153,6 +153,26 @@ const customLogger = (message) => (req, res, next) => {
 app.use(customLogger("Parameterised message!!"));
 ```
 
+## Input validation
+
+API shoud never trust clients and users. While it's possible to manually validate inputs, it's tedious and error prone. One of the available options for this is `express-validator` - `npm i express-validator`.
+
+With `express-validator`, you write validators so that when the request hits the controller / handler, it can be assumed that the data is in the expected format.
+
+`express-validator` works as a middleware, were it validates the input based on the configs set up, but it doesn't make any decision about what to do, but instead leave it for the developer to decide:
+
+```javascript
+router.put("/...", body("name").isString(), (req, res) => {
+  // enforces the request body to have a body attribute
+  const errors = validationResult(req); // enabled the developers to get the validation result
+
+  if (!errors.isEmpty()) {
+    res.status(400);
+    res.json({ errors: errors.array() });
+  }
+});
+```
+
 ## Thunder Client
 
 It's a http client embedded in vscode.
