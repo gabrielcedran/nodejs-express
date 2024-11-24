@@ -2,25 +2,25 @@ import {Router} from "express"
 import {body, validationResult} from 'express-validator'
 import { handleInputErrors } from "./modules/middlewares"
 import express from "express"
+import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from "./handlers/product"
 
 const router = Router()
 
 /**
  * Product endpoints
  */
-router.get("/products", (req: express.Request, res: express.Response) => {
-    res.json({message: "Test"})
-})
-router.get("/products/:id", (req: express.Request, res: express.Response) => {})
-router.post("/products", body('name').isString().isLength({min: 4, max: 50}), handleInputErrors, (req: express.Request, res: express.Response) => {
-    
-})
-router.put("/products/:id", [body('name').isString().isLength({min: 4, max: 50}), handleInputErrors], (req: express.Request, res: express.Response) => {
-
-    res.status(200)
-    res.end()
-})
-router.delete("/products/:id", (req: express.Request, res: express.Response) => {})
+router.get("/products", getProducts)
+router.get("/products/:id", getProduct)
+router.post("/products", 
+    body('name').isString().isLength({min: 4, max: 50}), 
+    handleInputErrors, 
+    createProduct
+)
+router.put("/products/:id", 
+    [body('name').isString().isLength({min: 4, max: 50}), handleInputErrors], 
+    updateProduct
+)
+router.delete("/products/:id", deleteProduct)
 
 /**
  * Update endpoints

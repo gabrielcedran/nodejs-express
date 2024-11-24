@@ -20,8 +20,44 @@ export const getProduct = async (req: express.Request, res: express.Response) =>
     const product = await prisma.product.findUnique({
         where: {
             id,
-            belongsToId: req.user!.id
+            belongsToId: req.user!.id,
         }
     })
     res.json({data: product})
+}
+
+export const createProduct = async (req: express.Request, res: express.Response) => { 
+    const product = await prisma.product.create({
+        data: {
+            name: req.body.name,
+            belongsToId: req.user!.id
+        }
+    })
+
+    res.json({data: product})
+}
+
+export const updateProduct = async (req: express.Request, res: express.Response) => { 
+    const updated = await prisma.product.update({
+        data: {
+            name: req.body.name
+        },
+        where: {
+            id: req.params.id,
+            belongsToId: req.user!.id
+        }
+    })
+
+    res.json({data: updated})
+}
+
+export const deleteProduct = async (req: express.Request, res: express.Response) => { 
+    const deleted = await prisma.product.delete({
+        where: {
+            id: req.params.id,
+            belongsToId: req.user!.id
+        }
+    })
+
+    res.json({data: deleted})
 }
