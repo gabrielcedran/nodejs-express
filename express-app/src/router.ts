@@ -3,6 +3,7 @@ import {body, validationResult} from 'express-validator'
 import { handleInputErrors } from "./modules/middlewares"
 import express from "express"
 import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from "./handlers/product"
+import { createUpdate, deleteUpdate, getUpdate, getUpdates, updateUpdate } from "./handlers/update"
 
 const router = Router()
 
@@ -25,23 +26,25 @@ router.delete("/products/:id", deleteProduct)
 /**
  * Update endpoints
  */
-router.get("/updates", (req: express.Request, res: express.Response) => {})
-router.get("/updates/:id", (req: express.Request, res: express.Response) => {})
+router.get("/updates", getUpdates)
+router.get("/updates/:id", getUpdate)
 router.post("/updates", 
+    body('productId').exists().isString(),
     body('title').exists().isString(), 
     body('body').exists().isString(), 
     body('status').optional().isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']), 
     body('version').optional().isString(), 
     handleInputErrors, 
-    (req: express.Request, res: express.Response) => {})
+    createUpdate)
 router.put("/updates/:id", 
+    body('productId').exists().isString(),
     body('title').optional().isString(), 
     body('body').optional().isString(), 
     body('status').optional().isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']), 
     body('version').optional().isString(), 
     handleInputErrors, 
-    (req: express.Request, res: express.Response) => {})
-router.delete("/updates/:id", (req: express.Request, res: express.Response) => {})
+   updateUpdate)
+router.delete("/updates/:id", deleteUpdate)
 
 
 /**
