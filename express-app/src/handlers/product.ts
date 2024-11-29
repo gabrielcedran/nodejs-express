@@ -26,15 +26,20 @@ export const getProduct = async (req: express.Request, res: express.Response) =>
     res.json({data: product})
 }
 
-export const createProduct = async (req: express.Request, res: express.Response) => { 
-    const product = await prisma.product.create({
-        data: {
-            name: req.body.name,
-            belongsToId: req.user!.id
-        }
-    })
+export const createProduct = async (req: express.Request, res: express.Response, next: express.NextFunction) => { 
+    try {
+        // considering everything has been properly validated by express validator, the most likely error to occurr is db related (e.g lost connection)
+        const product = await prisma.product.create({
+            data: {
+                name: req.body.name,
+                belongsToId: req.user!.id
+            }
+        })
 
-    res.json({data: product})
+        res.json({data: product})
+    } catch(e) {
+        next(e)
+    }
 }
 
 export const updateProduct = async (req: express.Request, res: express.Response) => { 

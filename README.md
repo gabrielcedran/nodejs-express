@@ -254,3 +254,11 @@ app.use(((err: any, req: express.Request, res: express.Response, next: express.N
     res.json({message: 'oops there was an error'})
 }) as express.ErrorRequestHandler)
 ```
+
+**Custom errors:**
+
+```javascript
+class CustomError extends Error {
+  // ...
+}
+```

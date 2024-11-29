@@ -14,6 +14,7 @@ export const createUser = async (req: express.Request, res: express.Response) =>
     res.json({ token })
 }
 
+
 export const signIn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const user = await prisma.user.findUnique({

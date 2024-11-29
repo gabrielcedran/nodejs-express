@@ -27,6 +27,8 @@ app.use('/api', authenticate, router)
 app.post('/user', createUser)
 app.post('/sign-in', signIn)
 
+// this wouldn't apply to sub routers, as it would sit before the sub routers handlers
+// it'd be necessary to have it attached at subrouter level.
 app.use(((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err.type === 'auth') {
         res.status(401).json({message: "unauthorized"})
