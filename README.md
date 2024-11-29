@@ -312,3 +312,50 @@ _dotenv is one of the options to inject environment variables locally from the `
 _See commit for more details on how to set it up and have a dynamic app._
 
 Running in a different mode: `STAGE=testing npm run dev`.
+
+## Performance
+
+Blocking code is extremely dangerous in express (and node in general) because unlike javascript running on a browser, users share the server resources and node is single threaded. One CPU intensive request will block all the subsequent ones.
+
+When writing javascript the goal should always be to write non-blocking code (specially cpu intensive logics). To to so, there are 2 ways:
+
+1. make the code `async` so that it's scheduled to be done later and it'll be done in a separate stack. It allows javascript to continue serving more requests.
+
+example:
+
+```javascript
+bcrypt.compare(x, y);
+
+// vs
+
+bcrypt.compareSync(x, y);
+```
+
+Another good example is the interactions with file system: `fs.readFileSync('./file')` vs `fs.readFile('./file')`:
+
+```javascript
+const fs = require("fs/promises");
+const path = require("path");
+
+const read = async () => {
+  const result = fs.readFile(path.join(__dirname, "package.json"), "utf-8");
+  return result;
+};
+
+console.log("this is not blocked");
+read().then((f) => console.log("now I have the file!", f));
+console.log("this is also not blocked");
+
+// vs
+
+const fs = require("fs");
+const path = require("path");
+
+const result = fs.readFileSync(path.join(__dirname, "package.json"), "utf-8");
+console.log("now I have the file!", result);
+console.log("this is blocked");
+```
+
+2. use a child process (which is similar to a web worker in the browser) - however there is a limitation on the number of child processes that can be spun up.
+
+Child processes should only be used when you are in control of when it's created (e.g on a cronjob task vs user requests via an api).
