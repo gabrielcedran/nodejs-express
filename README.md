@@ -294,3 +294,21 @@ throw new Error("oh no");
 _ps: the subscription has to happen before any potential error happens_
 
 **The approach above has nothing to do with express but everything to do with node!**
+
+## Environment Variables
+
+_Env variable gets injected into the app when it's running. They are accessed via the process object/variable (`process.env.VAR_NAME`) < env vars are provided by the host machine/platform._
+
+_dotenv is one of the options to inject environment variables locally from the `.env` file (otherwise we'd have to do so via the local OS). In a hosting platform, the platform itself will take care of it_
+
+`NODE_ENV` is one of the most important env variables in node. It's a convention and tons of libs and frameworks rely on it on order to determine how to function. Common values are `development` (which happens to usually be the default value), `testing` and `production` - e.g React relies on it to determine if it should issue some warnings and errors.
+
+### Environment creation - configuration driven code
+
+`lodash` is a utility package that used to be more relevant in the past, when many of the features that it provides weren't built into javascript directly. There are still some useful provided features though, like the `merge`, which will be used for this example of how to build a configuration driven app.
+
+`npm i lodash.merge`
+
+_See commit for more details on how to set it up and have a dynamic app._
+
+Running in a different mode: `STAGE=testing npm run dev`.
