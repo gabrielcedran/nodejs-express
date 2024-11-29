@@ -262,3 +262,35 @@ class CustomError extends Error {
   // ...
 }
 ```
+
+#### Errors outside express handlers (on node level)
+
+In such a situations, there is nothing that can be done on express level. The only way around it and to prevent the server from crashing is subscribing to an event on process level: `process.on()`.
+
+_the process in node is an object has a lot of things that is OS related_
+
+Especially the asynchronous code it's not possible to know what happened as it was... asynchronous. But it's better than letting the app crash. You may want some high level handling like this at the entrypoint of the express app creation.
+
+```javascript
+// sync
+process.on("uncaughtException", () => {
+  // logic
+  console.log("error raised during sync processing");
+});
+
+// async
+process.on("unhandledRejection", () => {
+  // logic
+  console.log("error raised during async processing");
+});
+
+setTimeout(() => {
+  throw new Error("oops");
+}, 300);
+
+throw new Error("oh no");
+```
+
+_ps: the subscription has to happen before any potential error happens_
+
+**The approach above has nothing to do with express but everything to do with node!**
