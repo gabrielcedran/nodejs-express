@@ -74,6 +74,8 @@ Basically 2 files will be created:
 
 _to spin up a postgres instance: `docker run -itd --name node_course_db --rm --network={if_container_communication_necessary} -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=node_course  postgres:17.2`_
 
+_to run a container with postgres client, `docker run -it --rm --network={network_name} postgres:17.2 bash` then `psql {connection details}`_
+
 _pro tip: install prisma extension on vscode_
 
 _npx prisma studio - visual db client_
@@ -195,3 +197,60 @@ process.env.SOMETHING;
 _ps1: bcrypt will be used to hash the users's passwords_
 
 _ps2: jsonwebtoken will be used to issue jwt tokens_
+
+## Error handling
+
+When errors are raised in node and not caught, it break the application, causing it to stop.
+
+For synchronous hanlders and middlewares, Express catches unhandled exceptions thrown by them, preventing the application from crashing out of the box. It also render a default error page.
+
+**However express doesn't know (nor has a way of knowing) how to handle asynchronous errors - this is how JS works, async things are happening in the future, in a different call stack**
+
+### Custom error handler
+
+#### Synchronous
+
+It's a simple middleware with an extra argument, which is the exception itself. The only difference is where it's placed - which has to be after all the routes since it has to catch any eventual thrown exception (if it is registered before, it wouldnt be able to do so).
+
+```javascript
+app.get('/', async (req, res) => {
+    throw new Error("something bad happened")
+})
+
+// ...
+
+app.use(((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    // logic
+
+    console.log(err);
+
+    res.json({message: 'oops there was an error'})
+}) as express.ErrorRequestHandler)
+
+```
+
+Like regular middlewares, error handlers can do everything, asynchronous processing, access db, etc, which makes it a perfect place to add instrumentation, error logging, error reporting, etc.
+
+#### Asynchronous
+
+To trigger error handlers for asynchronous code, it's necessary to handle it ourselves so that we can "notify" express about exceptions that will eventually be raised.
+
+To do so, just add a next argument to the handler (similarly to middlewares) and instead of throwing the exception, pass it to the next (previously there was nothing after the handler, now there's the error handler).
+
+```javascript
+app.get('/', async (req, res, next) => {
+    setTimeout(() => {
+        next(new Error("something bad happened"))
+    }, 1)
+})
+
+// ...
+
+app.use(((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    // logic
+
+    console.log(err);
+
+    res.json({message: 'oops there was an error'})
+}) as express.ErrorRequestHandler)
+```
