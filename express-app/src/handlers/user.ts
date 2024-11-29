@@ -14,19 +14,25 @@ export const createUser = async (req: express.Request, res: express.Response) =>
     res.json({ token })
 }
 
-export const signIn = async (req: express.Request, res: express.Response) => {
-    const user = await prisma.user.findUnique({
-        where: {
-            username: req.body.username
+export const signIn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                username: req.body.username
+            }
+        })
+
+        if (!user || !await comparePassword(req.body.password, user.password)) {
+            res.status(401)
+            res.json({message: 'unauthorized'})
+            return
         }
-    })
 
-    if (!user || !await comparePassword(req.body.password, user.password)) {
-        res.status(401)
-        res.json({message: 'unauthorized'})
-        return
+        const token = createJWT(user)
+        res.json({ token })  
+    } catch (e: any) {
+        // in reality, we'd inspect the exception to determine the reason
+        e.type = 'input'
+        next(e)
     }
-
-    const token = createJWT(user)
-    res.json({ token })  
 }
