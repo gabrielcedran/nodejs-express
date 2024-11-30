@@ -359,3 +359,15 @@ console.log("this is blocked");
 2. use a child process (which is similar to a web worker in the browser) - however there is a limitation on the number of child processes that can be spun up.
 
 Child processes should only be used when you are in control of when it's created (e.g on a cronjob task vs user requests via an api).
+
+## Tests
+
+For an express app, a good duo for tests is `jest` and `supertest`. The first is a testing framework while the second is a tool to ease integration tests.
+`ts-jest` is a lib that allows tests to be written in typescript.
+
+Set up:
+
+1. `npm i supertest @types/supertest jest @types/jest ts-jest`
+2. `npx ts-jest config:init`
+
+To run, simply execute `npx jest`.
