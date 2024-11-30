@@ -371,3 +371,5 @@ Set up:
 2. `npx ts-jest config:init`
 
 To run, simply execute `npx jest`.
+
+For integration tests, we can import the express app and delegate the server start to supertest.
