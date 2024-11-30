@@ -381,3 +381,9 @@ In order to deploy the api live, it's important to build the project and convert
 
 To do so, just run the command `npx tsc -p tsconfig.json` and then run the application pointing to the transpiled file `node dist/index.js`
 (or speed up this process by creating scripts in the `package.json` file).
+
+### Deploying to a hosting provider (render)
+
+To deploy to render, the api must be on github. Then click on `new` -> `web service` (which means anything that needs a port) -> connect the github repository -> fill in the form (attention to the `build command` and `start command` inputs) -> create
+
+After the creation, set the environment variables (db url, ports, etc).
