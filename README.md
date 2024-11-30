@@ -373,3 +373,11 @@ Set up:
 To run, simply execute `npx jest`.
 
 For integration tests, we can import the express app and delegate the server start to supertest.
+
+## Deployment setup
+
+In order to deploy the api live, it's important to build the project and convert the typescript files into javascript file
+(during development ts-node was doing this on the fly - tho technically possible to run it in prod, effectively it's inefficient due to overhead).
+
+To do so, just run the command `npx tsc -p tsconfig.json` and then run the application pointing to the transpiled file `node dist/index.js`
+(or speed up this process by creating scripts in the `package.json` file).
